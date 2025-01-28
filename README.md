@@ -21,6 +21,9 @@ När man arbetar med ett projekt i GitHub är det viktigt att validera koden aut
 
 ## ⚙️ Hur fungerar det?
 Workflowet använder GitHub Actions för att köra en rad steg (steps) varje gång en förändring görs i projektet. 
+När workflowet körs så kan man följa det i github. I detta exempel ser det ut såhär:
+
+![image](https://github.com/user-attachments/assets/1d06466d-ebf9-46ae-8987-8a1b3c75626a)
 
 ---
 
@@ -54,17 +57,35 @@ jobs:
   #  en ny virtuell maskin (VM) baserad på det operativsystem du valt
   # (i det här fallet ubuntu-latest).
 
+ # Nedan följer fyra steg som ingår i detta job 
     steps:
     - name: Checkout code
+     # steg 1
       uses: actions/checkout@v2  # Klona koden från repository
 
     - name: Setup .NET
+     # steg 2 
       uses: actions/setup-dotnet@v3  # Installera .NET SDK
       with:
-        dotnet-version: '7.0'  # Anpassa till din .NET-version
+        dotnet-version: '8.0'  # Ska vara samma som din egna .NET version 
 
     - name: Restore dependencies
+      # steg 3 
       run: dotnet restore  # Installera NuGet-beroenden
 
     - name: Build solution
+      # steg 4 
       run: dotnet build --configuration Release  # Bygg projektet
+```
+--- 
+
+### Om kommandot som körs i steg 4 
+
+![image](https://github.com/user-attachments/assets/3429090e-9928-4e99-b396-0c04a3f8614d)
+
+Kommandet ovan används för att bygga ett .NET-projekt (eller en lösning) i Release-läge,
+vilket innebär att projektet byggs för produktionssättning eller distribution.
+
+När du använder GitHub Actions för att bygga ditt .NET-projekt, kommer byggresultaten (t.ex. de kompilerade filer som skapas)
+att finnas på den virtuella maskinen som GitHub Actions kör. Dock är dessa byggresultat temporära och kommer inte 
+att bevaras när byggprocessen är klar om du inte uttryckligen sparar dem.
