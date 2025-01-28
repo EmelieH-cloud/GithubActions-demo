@@ -1,0 +1,22 @@
+﻿name: Build Project
+
+on:
+  push:
+    branches:
+      - main  # Kör workflow bara vid push till branchen "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Använder en Ubuntu-maskin för jobbet
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Klonar koden från din repo
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3  # Installerar rätt .NET SDK
+      with:
+        dotnet-version: '8.0'  # Anpassa till din .NET-version
+
+    - name: Build project
+      run: dotnet build --configuration Release  # Bygger projektet i Release-läge
